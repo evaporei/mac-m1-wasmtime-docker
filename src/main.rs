@@ -11,11 +11,24 @@ fn main() -> Result<()> {
     // `Store` structure. Note that you can also tweak configuration settings
     // with a `Config` and an `Engine` if desired.
     println!("Initializing...");
-    let store = Store::default();
+    let mut config = Config::new();
+    config.strategy(Strategy::Cranelift).unwrap();
+    config.interruptable(true); // For timeouts.
+    config.cranelift_nan_canonicalization(true); // For NaN determinism.
+    config.cranelift_opt_level(OptLevel::None);
+
+    let engine = Engine::new(&config)?;
+
+    let store = Store::new(&engine);
 
     // Compile the wasm binary into an in-memory instance of a `Module`.
     println!("Compiling module...");
-    let module = Module::from_file(store.engine(), "wasm/hello.wat")?;
+    // WAT FILE
+    let module = Module::from_file(&engine, "wasm/hello.wat")?;
+
+    // WASM FILE
+    // let binary = std::fs::read("wasm/hello.wasm")?;
+    // let module = Module::from_binary(&engine, &binary)?;
 
     // Here we handle the imports of the module, which in this case is our
     // `HelloCallback` type and its associated implementation of `Callback.
