@@ -9,3 +9,4 @@ edition = "2018"
 [dependencies]
 wasmtime = "0.27.0"
 anyhow = "1.0.42"
+# futures03 = { version = "0.3.1", package = "futures", features = ["compat"] }
