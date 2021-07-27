@@ -5,9 +5,9 @@
 
 use anyhow::Result;
 use wasmtime::*;
-// use std::thread;
+use std::thread;
 
-fn main() -> Result<()> {
+fn runtime() -> Result<()> {
     // let (result_sender, result_receiver): (Sender<Result<BlockState<C>, MappingError>>, _) = channel();
     // Configure the initial compilation environment, creating the global
     // `Store` structure. Note that you can also tweak configuration settings
@@ -33,10 +33,10 @@ fn main() -> Result<()> {
     // )
     // "#;
     let wat = r#"
-    (module
-      (func $hello (import "host" "hello"))
-      (func (export "run") (call $hello))
-    )
+      (module
+        (func $hello (import "host" "hello"))
+        (func (export "run") (call $hello))
+      )
     "#;
     let module = Module::new(store.engine(), wat)?;
     let instance = linker.instantiate(&module)?;
@@ -75,5 +75,20 @@ fn main() -> Result<()> {
     run.call(())?;
 
     println!("Done.");
+    Ok(())
+}
+
+fn main() -> Result<()> {
+    let conf =
+        thread::Builder::new().name("cool thread name".into());
+
+    let child: thread::JoinHandle<Result<()>> = conf.spawn(move || {
+        runtime()?;
+        Ok(())
+    })?;
+
+    let result = child.join();
+    println!("result: {:?}", result);
+
     Ok(())
 }
