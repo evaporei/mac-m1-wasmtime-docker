@@ -20,7 +20,7 @@ Instantiating module...
 Extracting export...
 thread 'cool thread name' panicked at 'assertion failed: `(left == right)`
   left: `-1`,
- right: `0`: registering new sigaltstack failed', /usr/local/cargo/registry/src/github.com-1ecc6299db9ec823/wasmtime-runtime-0.27.0/src/traphandlers/unix.rs:238:9
+ right: `0`: registering new sigaltstack failed: Invalid argument (os error 22)', /usr/local/cargo/registry/src/github.com-1ecc6299db9ec823/wasmtime-runtime-0.27.0/src/traphandlers/unix.rs:238:9
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 result: Err(Any { .. })
 ```

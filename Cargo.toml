@@ -7,6 +7,9 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-wasmtime = "0.27.0"
+# wasmtime below is basically their version 0.27.0, but with this commit:
+# https://github.com/bytecodealliance/wasmtime/commit/02ecfed7a0b78bf7018834fbec9610a304ec2812
+# I've made in my repo just so I don't have to upgrade a lot of things that changed
+# until 0.29.0 (where this commit is).
+wasmtime = { git="https://github.com/otaviopace/wasmtime", rev="1c530b7fe2af18558a2f0d7396b8781940e8ae98" }
 anyhow = "1.0.42"
-# futures03 = { version = "0.3.1", package = "futures", features = ["compat"] }
